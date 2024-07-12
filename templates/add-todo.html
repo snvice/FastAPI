@@ -1,0 +1,39 @@
+{% include 'layout.html' %}
+
+<div class="container pt-3"> <!--adding a padding top of 3: p-3-->
+    <div class="card">
+        <div class="card-header">
+            Make a new todo
+        </div>
+
+        <div class="card-body">
+            <form method="POST">
+                <div class="form-group">
+                    <label class="pb-2">Title</label> <!--adding a padding bottom of 2: p-2-->
+                    <input type="text" class="form-control" name="title"
+                           required>
+                </div>
+
+                <div class="form-group pt-2"> <!--adding a padding top of 2: p-2-->
+                    <label class="pb-2">Description</label> <!--adding a padding bottom of 2: p-2-->
+                    <textarea class="form-control"rows="3" name="description"
+                              required></textarea>
+                </div>
+
+                <div class="form-group pt-2 pb-2"> <!--adding a padding top of 2: p-3 and bottom of 2: pb-2-->
+                    <label class="pb-2">Priority</label> <!--adding a padding bottom of 2: p-2-->
+                    <select class="form-control" name="priority">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Add new todo</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+ 

@@ -1,0 +1,238 @@
+{% include 'layout.html' %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+  :root {
+    --primary-color: #3a0ca3;
+    --secondary-color: #4361ee;
+    --accent-color: #7209b7;
+    --background-color: #f0f3ff;
+    --card-bg-color: #ffffff;
+    --text-color: #2b2d42;
+    --success-color: #4caf50;
+    --info-color: #2196f3;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+
+  .container {
+    max-width: 900px;
+  }
+
+  .card {
+    background-color: var(--card-bg-color);
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1) 10px,
+      transparent 10px,
+      transparent 20px
+    );
+    animation: shine 20s linear infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+
+  .card-title {
+    font-weight: 600;
+    color: var(--accent-color);
+  }
+
+  .table {
+    border-collapse: separate;
+    border-spacing: 0 15px;
+  }
+
+  .table thead th {
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary-color);
+  }
+
+  .table tbody tr {
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .table tbody tr:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .table td {
+    border: none;
+    padding: 20px;
+    vertical-align: middle;
+  }
+
+  .btn {
+    border-radius: 25px;
+    padding: 8px 20px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+  }
+
+  .btn-info {
+    background-color: var(--info-color);
+    border-color: var(--info-color);
+  }
+
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .add-todo-btn {
+    margin-top: 30px;
+    padding: 12px 30px;
+    font-size: 1.1em;
+  }
+
+  .todo-icon {
+    font-size: 24px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .progress-bar {
+    height: 5px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    animation: progress 2s ease-out forwards;
+  }
+
+  @keyframes progress {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="progress-bar"></div>
+
+<div class="container my-5">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="mb-0">
+        <i class="fas fa-tasks todo-icon"></i>Your Professional Todo List
+      </h2>
+    </div>
+    <div class="card-body">
+      <h4 class="card-title mb-4">Manage Your Tasks Efficiently</h4>
+      <p class="card-text text-muted mb-4">Stay organized and boost your productivity with our sleek todo management system.</p>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" class="text-center">#</th>
+              <th scope="col">Task Description</th>
+              <th scope="col" class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for todo in todos %}
+            <tr>
+              <td class="text-center">{{ loop.index }}</td>
+              <td>{{ todo.title }}</td>
+              <td class="text-center">
+                <button type="button" class="btn btn-success btn-sm mr-2">
+                  <i class="fas fa-check mr-1"></i> Complete
+                </button>
+                <button onclick="window.location.href='edit-todo/{{ todo.id }}'" type="button" class="btn btn-info btn-sm">
+                  <i class="fas fa-edit mr-1"></i> Edit
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="text-center">
+        <a href="add-todo" class="btn btn-primary btn-lg add-todo-btn">
+          <i class="fas fa-plus mr-2"></i> Add New Task
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Add smooth scrolling
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // Add fade-in animation for table rows
+  const tableRows = document.querySelectorAll('tbody tr');
+  tableRows.forEach((row, index) => {
+    row.style.animation = `fadeIn 0.5s ease-out ${index * 0.1}s forwards`;
+  });
+</script>
